@@ -1,6 +1,7 @@
 package com.bertogonz3000.flixter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.res.Configuration;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -14,6 +15,8 @@ import android.widget.TextView;
 import com.bertogonz3000.flixter.models.Config;
 import com.bertogonz3000.flixter.models.GlideApp;
 import com.bertogonz3000.flixter.models.Movie;
+
+import org.parceler.Parcels;
 
 import java.util.ArrayList;
 
@@ -104,8 +107,8 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.ViewHolder>{
         return movies.size();
     }
 
-    //Create the viewholder as a static inner class
-    public static class ViewHolder extends RecyclerView.ViewHolder {
+    //Create the viewholder as an inner class
+    public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
         //track view objects - nullable because its possible that they won't exist
        @Nullable @BindView(R.id.ivPosterImage) ImageView ivPosterImage;
@@ -117,6 +120,26 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.ViewHolder>{
             super(itemView);
             //lookup view objects by id
             ButterKnife.bind(this, itemView);
+            itemView.setOnClickListener(this);
+
+        }
+
+        @Override
+        public void onClick(View view) {
+            //gets item position
+            int position = getAdapterPosition();
+            //make sure pos is valid
+            if (position != RecyclerView.NO_POSITION){
+                //get the movie at the pos (make sure class not static
+                Movie movie = movies.get(position);
+                //create intent for new activity
+                Intent intent = new Intent(context, MovieDetailsActivity.class);
+                //serialize the movie user parceler, use its short name as the key
+                intent.putExtra(Movie.class.getSimpleName(), Parcels.wrap(movie));
+                //Show the activity
+                context.startActivity(intent);
+            }
+
 
         }
     }

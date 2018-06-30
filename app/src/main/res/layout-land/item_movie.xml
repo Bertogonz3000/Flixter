@@ -16,7 +16,8 @@
         android:adjustViewBounds="true"
         android:layout_marginRight="5dp"
         android:scaleType="fitXY"
-        app:srcCompat="@drawable/flicks_backdrop_placeholder" />
+        app:srcCompat="@drawable/flicks_backdrop_placeholder"
+        android:alpha="1.0"/>
 
     <TextView
         android:id="@+id/tvTitle"
